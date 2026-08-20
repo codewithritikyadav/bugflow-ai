@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | BugFlow AI</title>
+
+    <link rel="stylesheet" href="/static/bugs/css/style.css">
+</head>
+
+<body class="dashboard-body">
+
+<div class="app-shell">
+
+    <!-- ================= SIDEBAR ================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <!-- Logo -->
+            <div class="sidebar-logo">
+
+                <div class="logo-mark">
+                    <span>&#x1F41E;</span>
+                </div>
+
+                <div class="logo-text">
+                    <strong>BugFlow</strong>
+                    <span>AI</span>
+                </div>
+
+            </div>
+
+
+            <!-- Navigation -->
+
+            <nav class="sidebar-nav">
+
+                <a href="/" class="nav-link active">
+
+                    <span class="nav-icon">⌂</span>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+
+                <a href="/" class="nav-link">
+
+                    <span class="nav-icon">◈</span>
+
+                    <span>Bugs</span>
+
+                </a>
+
+
+                <a href="/" class="nav-link">
+
+                    <span class="nav-icon">✓</span>
+
+                    <span>Assigned</span>
+
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <!-- Sidebar Bottom -->
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div class="avatar small">
+                    {{ user.username|first|upper }}
+                </div>
+
+                <div class="sidebar-user-info">
+                    <strong>{{ user.username }}</strong>
+                    <span>Member</span>
+                </div>
+
+            </div>
+
+
+            <form method="post" action="{% url 'logout' %}">
+
+                {% csrf_token %}
+
+                <button type="submit" class="logout-button">
+
+                    <span>↪</span>
+
+                    Logout
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main-area">
+
+
+        <!-- Top Bar -->
+
+        <header class="topbar">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    placeholder="Search..."
+                >
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="online-status">
+
+                    <span class="status-dot"></span>
+
+                    Online
+
+                </div>
+
+
+                <button class="icon-button">
+                    ♧
+                </button>
+
+
+                <div class="top-user">
+
+                    <div class="top-user-info">
+
+                        <strong>{{ user.username }}</strong>
+
+                        <span>Member</span>
+
+                    </div>
+
+                    <div class="avatar">
+
+                        {{ user.username|first|upper }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENT ================= -->
+
+        <section class="dashboard-content">
+
+
+            <!-- Heading -->
+
+            <div class="page-heading">
+
+                <div>
+
+                    <p class="small-label">
+                        BUG TRACKING SYSTEM
+                    </p>
+
+                    <h1>
+                        Dashboard
+                    </h1>
+
+                    <p>
+                        Monitor and manage your project bugs.
+                    </p>
+
+                </div>
+
+
+                <button class="add-button">
+
+                    <span>+</span>
+
+                    Add Bug
+
+                </button>
+
+            </div>
+
+
+            <!-- ================= STATS ================= -->
+
+            <div class="stats-grid">
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-title">
+                            Total Bugs
+                        </span>
+
+                        <span class="stat-icon">
+                            ◈
+                        </span>
+
+                    </div>
+
+                    <div class="stat-number">
+                        0
+                    </div>
+
+                    <span class="stat-description">
+                        Bugs in the system
+                    </span>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-title">
+                            Open Bugs
+                        </span>
+
+                        <span class="stat-icon orange">
+                            !
+                        </span>
+
+                    </div>
+
+                    <div class="stat-number">
+                        0
+                    </div>
+
+                    <span class="stat-description">
+                        Currently open
+                    </span>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-title">
+                            In Progress
+                        </span>
+
+                        <span class="stat-icon blue">
+                            ◷
+                        </span>
+
+                    </div>
+
+                    <div class="stat-number">
+                        0
+                    </div>
+
+                    <span class="stat-description">
+                        Being worked on
+                    </span>
+
+                </div>
+
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+
+                        <span class="stat-title">
+                            Resolved
+                        </span>
+
+                        <span class="stat-icon green">
+                            ✓
+                        </span>
+
+                    </div>
+
+                    <div class="stat-number">
+                        0
+                    </div>
+
+                    <span class="stat-description">
+                        Successfully resolved
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ================= BUG SECTION ================= -->
+
+            <div class="section-heading">
+
+                <div>
+
+                    <p class="small-label">
+                        WORKSPACE
+                    </p>
+
+                    <h2>
+                        Recent Bugs
+                    </h2>
+
+                </div>
+
+                <button class="filter-button">
+                    All Bugs
+                    <span>⌄</span>
+                </button>
+
+            </div>
+
+
+            <!-- Empty Bug Area -->
+
+            <div class="bug-card">
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ◈
+                    </div>
+
+                    <h3>
+                        No bugs yet
+                    </h3>
+
+                    <p>
+                        Add a bug to start tracking issues in your project.
+                    </p>
+
+                    <button class="add-button">
+
+                        <span>+</span>
+
+                        Add Bug
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+</body>
+</html>
