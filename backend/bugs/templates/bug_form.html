@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ page_title }} | BugFlow AI</title>
+
+    <link
+        rel="stylesheet"
+        href="/static/bugs/css/style.css"
+    >
+
+</head>
+
+
+<body class="dashboard-body">
+
+
+<div class="app-shell">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-top">
+
+            <div class="sidebar-logo">
+
+                <div class="logo-mark">
+                    <span>&#x1F41E;</span>
+                </div>
+
+                <div class="logo-text">
+
+                    <strong>BugFlow</strong>
+
+                    <span>AI</span>
+
+                </div>
+
+            </div>
+
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="nav-link"
+                >
+
+                    <span class="nav-icon">⌂</span>
+
+                    <span>Dashboard</span>
+
+                </a>
+
+
+                <a
+                    href="{% url 'dashboard' %}#bugs"
+                    class="nav-link active"
+                >
+
+                    <span class="nav-icon">◈</span>
+
+                    <span>Bugs</span>
+
+                </a>
+
+            </nav>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="sidebar-user">
+
+                <div class="avatar small">
+
+                    {{ user.username|first|upper }}
+
+                </div>
+
+
+                <div class="sidebar-user-info">
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                    <span>
+                        Member
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <form
+                method="post"
+                action="{% url 'logout' %}"
+            >
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="logout-button"
+                >
+
+                    <span>↪</span>
+
+                    Logout
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN -->
+
+    <main class="main-area">
+
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div class="search-box">
+
+                <span>⌕</span>
+
+                <input
+                    type="text"
+                    placeholder="Search..."
+                >
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="online-status">
+
+                    <span class="status-dot"></span>
+
+                    Online
+
+                </div>
+
+
+                <div class="top-user">
+
+                    <div class="top-user-info">
+
+                        <strong>
+                            {{ user.username }}
+                        </strong>
+
+                        <span>
+                            Member
+                        </span>
+
+                    </div>
+
+
+                    <div class="avatar">
+
+                        {{ user.username|first|upper }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- PAGE CONTENT -->
+
+        <section class="dashboard-content">
+
+
+            <div class="page-heading">
+
+                <div>
+
+                    <p class="small-label">
+                        BUG MANAGEMENT
+                    </p>
+
+                    <h1>
+                        {{ page_title }}
+                    </h1>
+
+                    <p>
+                        Add or update a bug in your project.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <div class="form-card">
+
+                <form
+                    method="post"
+                    class="bug-form"
+                >
+
+                    {% csrf_token %}
+
+
+                    {% if form.non_field_errors %}
+
+                        <div class="form-error">
+
+                            {{ form.non_field_errors }}
+
+                        </div>
+
+                    {% endif %}
+
+
+
+                    <!-- TITLE -->
+
+                    <div class="form-field">
+
+                        <label
+                            for="{{ form.title.id_for_label }}"
+                        >
+                            Bug Title
+                        </label>
+
+                        {{ form.title }}
+
+
+                        {% if form.title.errors %}
+
+                            <div class="field-error">
+
+                                {{ form.title.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-field">
+
+                        <div class="description-label-row">
+
+                            <label
+                                for="{{ form.description.id_for_label }}"
+                            >
+                                Description
+                            </label>
+
+
+                            <button
+                                type="button"
+                                id="improveDescriptionButton"
+                                class="ai-button"
+                            >
+
+                                ✦ Improve with AI
+
+                            </button>
+
+                        </div>
+
+
+                        {{ form.description }}
+
+
+                        <p
+                            id="aiMessage"
+                            class="ai-message"
+                        ></p>
+
+
+                        {% if form.description.errors %}
+
+                            <div class="field-error">
+
+                                {{ form.description.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <!-- PRIORITY + STATUS -->
+
+                    <div class="form-row">
+
+
+                        <div class="form-field">
+
+                            <label
+                                for="{{ form.priority.id_for_label }}"
+                            >
+                                Priority
+                            </label>
+
+                            {{ form.priority }}
+
+
+                            {% if form.priority.errors %}
+
+                                <div class="field-error">
+
+                                    {{ form.priority.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+
+
+                        <div class="form-field">
+
+                            <label
+                                for="{{ form.status.id_for_label }}"
+                            >
+                                Status
+                            </label>
+
+                            {{ form.status }}
+
+
+                            {% if form.status.errors %}
+
+                                <div class="field-error">
+
+                                    {{ form.status.errors }}
+
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ASSIGN DEVELOPER -->
+
+                    <div class="form-field">
+
+                        <label
+                            for="{{ form.assigned_to.id_for_label }}"
+                        >
+                            Assign Developer
+                        </label>
+
+
+                        {{ form.assigned_to }}
+
+
+                        <p class="field-help">
+                            Select a developer responsible for this bug.
+                        </p>
+
+
+                        {% if form.assigned_to.errors %}
+
+                            <div class="field-error">
+
+                                {{ form.assigned_to.errors }}
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+
+                    <!-- BUTTONS -->
+
+                    <div class="form-actions">
+
+                        <a
+                            href="{% url 'dashboard' %}"
+                            class="cancel-button"
+                        >
+                            Cancel
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="add-button"
+                        >
+
+                            {{ button_text }}
+
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- AI SCRIPT -->
+
+<script>
+
+const improveButton =
+    document.getElementById(
+        "improveDescriptionButton"
+    );
+
+
+const descriptionField =
+    document.getElementById(
+        "{{ form.description.id_for_label }}"
+    );
+
+
+const aiMessage =
+    document.getElementById(
+        "aiMessage"
+    );
+
+
+improveButton.addEventListener(
+    "click",
+    async function () {
+
+
+        const description =
+            descriptionField.value.trim();
+
+
+        if (!description) {
+
+            aiMessage.textContent =
+                "Enter a description first.";
+
+            return;
+
+        }
+
+
+        improveButton.disabled = true;
+
+        improveButton.textContent =
+            "Improving...";
+
+        aiMessage.textContent =
+            "AI is improving your description...";
+
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "description",
+            description
+        );
+
+
+        formData.append(
+            "csrfmiddlewaretoken",
+            "{{ csrf_token }}"
+        );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "{% url 'improve_description' %}",
+                    {
+                        method: "POST",
+                        body: formData
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (data.success) {
+
+                descriptionField.value =
+                    data.description;
+
+                aiMessage.textContent =
+                    "Description improved successfully.";
+
+            } else {
+
+                aiMessage.textContent =
+                    data.error ||
+                    "Something went wrong.";
+
+            }
+
+        } catch (error) {
+
+            aiMessage.textContent =
+                "Unable to connect to the AI service.";
+
+        }
+
+
+        improveButton.disabled = false;
+
+        improveButton.textContent =
+            "✦ Improve with AI";
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html>

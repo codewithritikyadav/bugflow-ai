@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Delete Bug | BugFlow AI
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/static/bugs/css/style.css"
+    >
+
+</head>
+
+
+<body class="auth-body">
+
+
+<div class="delete-card">
+
+    <div class="delete-icon">
+        !
+    </div>
+
+
+    <p class="small-label">
+        DELETE BUG
+    </p>
+
+
+    <h1>
+        Delete this bug?
+    </h1>
+
+
+    <p class="delete-description">
+
+        You are about to delete:
+
+    </p>
+
+
+    <div class="delete-bug-title">
+
+        {{ bug.title }}
+
+    </div>
+
+
+    <p class="delete-description">
+
+        This action cannot be undone.
+
+    </p>
+
+
+    <form
+        method="post"
+        class="delete-actions"
+    >
+
+        {% csrf_token %}
+
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="cancel-button"
+        >
+            Cancel
+        </a>
+
+
+        <button
+            type="submit"
+            class="delete-confirm-button"
+        >
+            Delete Bug
+        </button>
+
+    </form>
+
+</div>
+
+
+</body>
+
+</html>

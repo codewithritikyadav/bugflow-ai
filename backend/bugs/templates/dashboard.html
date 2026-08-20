@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Dashboard | BugFlow AI</title>
 
-    <link rel="stylesheet" href="/static/bugs/css/style.css">
+    <link
+        rel="stylesheet"
+        href="/static/bugs/css/style.css"
+    >
+
 </head>
+
 
 <body class="dashboard-body">
 
+
 <div class="app-shell">
 
-    <!-- ================= SIDEBAR ================= -->
+
+    <!-- SIDEBAR -->
 
     <aside class="sidebar">
 
         <div class="sidebar-top">
 
-            <!-- Logo -->
             <div class="sidebar-logo">
 
                 <div class="logo-mark">
@@ -27,18 +39,22 @@
                 </div>
 
                 <div class="logo-text">
+
                     <strong>BugFlow</strong>
+
                     <span>AI</span>
+
                 </div>
 
             </div>
 
 
-            <!-- Navigation -->
-
             <nav class="sidebar-nav">
 
-                <a href="/" class="nav-link active">
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="nav-link active"
+                >
 
                     <span class="nav-icon">⌂</span>
 
@@ -47,20 +63,14 @@
                 </a>
 
 
-                <a href="/" class="nav-link">
+                <a
+                    href="#bugs"
+                    class="nav-link"
+                >
 
                     <span class="nav-icon">◈</span>
 
                     <span>Bugs</span>
-
-                </a>
-
-
-                <a href="/" class="nav-link">
-
-                    <span class="nav-icon">✓</span>
-
-                    <span>Assigned</span>
 
                 </a>
 
@@ -69,29 +79,43 @@
         </div>
 
 
-        <!-- Sidebar Bottom -->
-
         <div class="sidebar-bottom">
 
             <div class="sidebar-user">
 
                 <div class="avatar small">
+
                     {{ user.username|first|upper }}
+
                 </div>
 
+
                 <div class="sidebar-user-info">
-                    <strong>{{ user.username }}</strong>
-                    <span>Member</span>
+
+                    <strong>
+                        {{ user.username }}
+                    </strong>
+
+                    <span>
+                        Member
+                    </span>
+
                 </div>
 
             </div>
 
 
-            <form method="post" action="{% url 'logout' %}">
+            <form
+                method="post"
+                action="{% url 'logout' %}"
+            >
 
                 {% csrf_token %}
 
-                <button type="submit" class="logout-button">
+                <button
+                    type="submit"
+                    class="logout-button"
+                >
 
                     <span>↪</span>
 
@@ -106,12 +130,13 @@
     </aside>
 
 
-    <!-- ================= MAIN ================= -->
+
+    <!-- MAIN -->
 
     <main class="main-area">
 
 
-        <!-- Top Bar -->
+        <!-- TOPBAR -->
 
         <header class="topbar">
 
@@ -138,20 +163,20 @@
                 </div>
 
 
-                <button class="icon-button">
-                    ♧
-                </button>
-
-
                 <div class="top-user">
 
                     <div class="top-user-info">
 
-                        <strong>{{ user.username }}</strong>
+                        <strong>
+                            {{ user.username }}
+                        </strong>
 
-                        <span>Member</span>
+                        <span>
+                            Member
+                        </span>
 
                     </div>
+
 
                     <div class="avatar">
 
@@ -166,12 +191,13 @@
         </header>
 
 
-        <!-- ================= CONTENT ================= -->
+
+        <!-- DASHBOARD -->
 
         <section class="dashboard-content">
 
 
-            <!-- Heading -->
+            <!-- HEADING -->
 
             <div class="page-heading">
 
@@ -192,18 +218,22 @@
                 </div>
 
 
-                <button class="add-button">
+                <a
+                    href="{% url 'bug_create' %}"
+                    class="add-button"
+                >
 
                     <span>+</span>
 
                     Add Bug
 
-                </button>
+                </a>
 
             </div>
 
 
-            <!-- ================= STATS ================= -->
+
+            <!-- STATISTICS -->
 
             <div class="stats-grid">
 
@@ -222,15 +252,18 @@
 
                     </div>
 
+
                     <div class="stat-number">
-                        0
+                        {{ total_bugs }}
                     </div>
+
 
                     <span class="stat-description">
                         Bugs in the system
                     </span>
 
                 </div>
+
 
 
                 <div class="stat-card">
@@ -247,15 +280,18 @@
 
                     </div>
 
+
                     <div class="stat-number">
-                        0
+                        {{ open_bugs }}
                     </div>
+
 
                     <span class="stat-description">
                         Currently open
                     </span>
 
                 </div>
+
 
 
                 <div class="stat-card">
@@ -272,15 +308,18 @@
 
                     </div>
 
+
                     <div class="stat-number">
-                        0
+                        {{ in_progress_bugs }}
                     </div>
+
 
                     <span class="stat-description">
                         Being worked on
                     </span>
 
                 </div>
+
 
 
                 <div class="stat-card">
@@ -297,12 +336,14 @@
 
                     </div>
 
+
                     <div class="stat-number">
-                        0
+                        {{ resolved_bugs }}
                     </div>
 
+
                     <span class="stat-description">
-                        Successfully resolved
+                        Resolved bugs
                     </span>
 
                 </div>
@@ -310,9 +351,13 @@
             </div>
 
 
-            <!-- ================= BUG SECTION ================= -->
 
-            <div class="section-heading">
+            <!-- BUG SECTION -->
+
+            <div
+                class="section-heading"
+                id="bugs"
+            >
 
                 <div>
 
@@ -321,48 +366,192 @@
                     </p>
 
                     <h2>
-                        Recent Bugs
+                        Bugs
                     </h2>
 
                 </div>
 
-                <button class="filter-button">
-                    All Bugs
-                    <span>⌄</span>
-                </button>
+
+                <a
+                    href="{% url 'bug_create' %}"
+                    class="filter-button"
+                >
+
+                    + Add Bug
+
+                </a>
 
             </div>
 
 
-            <!-- Empty Bug Area -->
 
-            <div class="bug-card">
+            {% if bugs %}
 
-                <div class="empty-state">
 
-                    <div class="empty-icon">
-                        ◈
-                    </div>
+                <div class="bugs-list">
 
-                    <h3>
-                        No bugs yet
-                    </h3>
 
-                    <p>
-                        Add a bug to start tracking issues in your project.
-                    </p>
+                    {% for bug in bugs %}
 
-                    <button class="add-button">
 
-                        <span>+</span>
+                        <div class="bug-row">
 
-                        Add Bug
 
-                    </button>
+                            <div class="bug-main">
+
+
+                                <div class="bug-title-line">
+
+                                    <h3>
+                                        {{ bug.title }}
+                                    </h3>
+
+                                </div>
+
+
+                                <p>
+                                    {{ bug.description|truncatechars:120 }}
+                                </p>
+
+
+
+                                <!-- BUG META -->
+
+                                <div class="bug-meta">
+
+
+                                    <!-- PRIORITY -->
+
+                                    <span
+                                        class="priority-badge priority-{{ bug.priority|lower }}"
+                                    >
+
+                                        {{ bug.get_priority_display }}
+
+                                    </span>
+
+
+
+                                    <!-- STATUS -->
+
+                                    <span
+                                        class="status-badge status-{{ bug.status|lower }}"
+                                    >
+
+                                        {{ bug.get_status_display }}
+
+                                    </span>
+
+
+
+                                    <!-- DEVELOPER -->
+
+                                    {% if bug.assigned_to %}
+
+                                        <span class="developer-badge">
+
+                                            <span class="developer-avatar">
+
+                                                {{ bug.assigned_to.username|first|upper }}
+
+                                            </span>
+
+                                            <span>
+
+                                                {{ bug.assigned_to.username }}
+
+                                            </span>
+
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="developer-badge unassigned">
+
+                                            Unassigned
+
+                                        </span>
+
+                                    {% endif %}
+
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <!-- ACTIONS -->
+
+                            <div class="bug-actions">
+
+                                <a
+                                    href="{% url 'bug_edit' bug.pk %}"
+                                    class="edit-button"
+                                >
+                                    Edit
+                                </a>
+
+
+                                <a
+                                    href="{% url 'bug_delete' bug.pk %}"
+                                    class="delete-button"
+                                >
+                                    Delete
+                                </a>
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
 
                 </div>
 
-            </div>
+
+            {% else %}
+
+
+                <div class="bug-card">
+
+                    <div class="empty-state">
+
+                        <div class="empty-icon">
+                            ◈
+                        </div>
+
+
+                        <h3>
+                            No bugs yet
+                        </h3>
+
+
+                        <p>
+                            Add a bug to start tracking issues.
+                        </p>
+
+
+                        <a
+                            href="{% url 'bug_create' %}"
+                            class="add-button"
+                        >
+
+                            <span>+</span>
+
+                            Add Bug
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+            {% endif %}
 
 
         </section>
@@ -371,5 +560,7 @@
 
 </div>
 
+
 </body>
+
 </html>
